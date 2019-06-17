@@ -44,6 +44,7 @@ extern "C" unsigned long fastled_delay(unsigned long ms) {
     ts.tv_sec = ms / 1000;
     ts.tv_nsec = (ms % 1000) * 1000000;
     nanosleep(&ts, NULL);
+    return 0;
 }
 
 unsigned long millis() __attribute__ ((weak, alias ("fastled_millis")));

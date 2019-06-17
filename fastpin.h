@@ -23,6 +23,7 @@ FASTLED_NAMESPACE_BEGIN
 
 class Selectable {
 public:
+	virtual ~Selectable();
 	virtual void select() = 0;
 	virtual void release() = 0;
 	virtual bool isSelected() = 0;
@@ -30,10 +31,10 @@ public:
 
 #if defined(FASTLED_NO_FASTPIN)
 class Pin : public Selectable {
-	uint8_t mPin;
+	//uint8_t mPin;
 
 public:
-	Pin(int pin) : mPin(pin) { }
+	Pin(int pin) { (void)pin; }
 
 	typedef void * port_ptr_t;
 	typedef unsigned int port_t;
@@ -47,11 +48,11 @@ public:
 	inline void strobe() __attribute__ ((always_inline)) { toggle(); toggle(); }
 	inline void toggle() __attribute__ ((always_inline)) {  }
 
-	inline void hi(register port_ptr_t port) __attribute__ ((always_inline)) {  }
-	inline void lo(register port_ptr_t port) __attribute__ ((always_inline)) {  }
-	inline void set(register port_t val) __attribute__ ((always_inline)) {  }
+	inline void hi(register port_ptr_t port) __attribute__ ((always_inline)) { (void)port; }
+	inline void lo(register port_ptr_t port) __attribute__ ((always_inline)) { (void)port; }
+	inline void set(register port_t val) __attribute__ ((always_inline)) { (void)val; }
 
-	inline void fastset(register port_ptr_t port, register port_t val) __attribute__ ((always_inline)) {  }
+	inline void fastset(register port_ptr_t port, register port_t val) __attribute__ ((always_inline)) { (void)port; (void)val; }
 
 	port_t hival() __attribute__ ((always_inline)) { return 0;  }
 	port_t loval() __attribute__ ((always_inline)) { return 0; }
@@ -266,11 +267,11 @@ public:
 
 	inline static void toggle() __attribute__ ((always_inline)) { }
 
-	inline static void hi(register port_ptr_t port) __attribute__ ((always_inline)) { }
-	inline static void lo(register port_ptr_t port) __attribute__ ((always_inline)) { }
-	inline static void set(register port_t val) __attribute__ ((always_inline)) { }
+	inline static void hi(register port_ptr_t port) __attribute__ ((always_inline)) { (void)port; }
+	inline static void lo(register port_ptr_t port) __attribute__ ((always_inline)) { (void)port;}
+	inline static void set(register port_t val) __attribute__ ((always_inline)) { (void)val; }
 
-	inline static void fastset(register port_ptr_t port, register port_t val) __attribute__ ((always_inline)) { }
+	inline static void fastset(register port_ptr_t port, register port_t val) __attribute__ ((always_inline)) { (void)port; (void)val; }
 
 	static port_t hival() __attribute__ ((always_inline)) { return 0; }
 	static port_t loval() __attribute__ ((always_inline)) { return 0;}

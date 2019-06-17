@@ -1,11 +1,22 @@
 #ifndef __INC_FASTSPI_LINUX_H
 #define __INC_FASTSPI_LINUX_H
 
+#include <string>
+#include <stdexcept>
+#include <system_error>
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <linux/spi/spidev.h>
-#include <stdexcept>
-#include <system_error>
+
+#ifndef PLATFORM_BUILD
+#define LOG_TAG    "fastled"
+#include <android/log.h>
+#define ALOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+#define ALOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
+#else
+#include <utils/Log.h>
+#endif
+
 
 #define LINUX_SPIDEV_PATH    "/dev/spidev"
 
@@ -32,7 +43,8 @@ template <uint8_t _SPI_BUS, uint8_t _SPI_CS, uint8_t _SPI_SPEED> class LinuxHard
         throwMessage += " [";
         throwMessage += spiDevice;
         throwMessage += "]";
-        throw std::system_error(errno, std::system_category(), throwMessage);
+        ALOGE("Error: %s", throwMessage.c_str());
+        //throw std::system_error(errno, std::system_category(), throwMessage);
     }
 
 public:
@@ -51,7 +63,7 @@ public:
 
     // initialize the SPI subssytem
     void init() {
-        spiClock = (int)_SPI_SPEED * 1000000L;
+        spiClock = (int)_SPI_SPEED * 1000L;
         spiMode = SPI_MODE_0;
         spiBitsPerWord = 8;
 
@@ -126,7 +138,9 @@ public:
 
     // not the most efficient mechanism in the world - but should be enough for sm16716 and friends
     template <uint8_t BIT> inline static void writeBit(uint8_t b) {
-        throw std::runtime_error("writeBit not implemented");
+        ALOGE("writeBit not implemented");
+        (void)b;
+        //throw std::runtime_error("writeBit not implemented");
     }
 
     // write a byte out via SPI (returns immediately on writing register)
@@ -186,7 +200,11 @@ public:
         adjusted = buf = getXmitBuffer(bufSize);
 
         if (FLAGS & FLAG_START_BIT)
-            throw std::runtime_error("writePixels:FLAG_START_BIT flag not implemented");
+        {
+          ALOGE("writePixels:FLAG_START_BIT flag not implemented");
+          //throw std::runtime_error("writePixels:FLAG_START_BIT flag not implemented");
+          return;
+        }
 
         select();
         while(pixels.has(1)) {

@@ -149,6 +149,7 @@ LIB8STATIC int16_t cos16( uint16_t theta)
 
 const uint8_t b_m16_interleave[] = { 0, 49, 49, 41, 90, 27, 117, 10 };
 
+#if defined(__AVR__) && !defined(LIB8_ATTINY)
 /// Fast 8-bit approximation of sin(x). This approximation never varies more than
 /// 2% from the floating point value you'd get by doing
 ///
@@ -206,6 +207,7 @@ LIB8STATIC uint8_t  sin8_avr( uint8_t theta)
     return y;
 }
 
+#else
 
 /// Fast 8-bit approximation of sin(x). This approximation never varies more than
 /// 2% from the floating point value you'd get by doing
@@ -242,6 +244,7 @@ LIB8STATIC uint8_t sin8_C( uint8_t theta)
 
     return y;
 }
+#endif
 
 /// Fast 8-bit approximation of cos(x). This approximation never varies more than
 /// 2% from the floating point value you'd get by doing

@@ -60,6 +60,7 @@ protected:
     virtual void show(const struct CRGB *data, int nLeds, CRGB scale) = 0;
 
 public:
+  virtual ~CLEDController() {}
 	/// create an led controller object, add it to the chain of controllers
     CLEDController() : m_Data(NULL), m_ColorCorrection(UncorrectedColor), m_ColorTemperature(UncorrectedTemperature), m_DitherMode(BINARY_DITHER), m_nLeds(0) {
         m_pNext = NULL;

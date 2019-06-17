@@ -31,21 +31,24 @@ FASTLED_USING_NAMESPACE
 // animations patterns and have them automatically rotate.
 //
 // -Mark Kriegsman, December 2014
-
+#define LOG_TAG    "fastled"
+#include <android/log.h>
+#define ALOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+#define ALOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 #if defined(FASTLED_VERSION) && (FASTLED_VERSION < 3001000)
 #warning "Requires FastLED 3.1 or later; check github for latest code."
 #endif
 
-#define SPI_BUS    0
+#define SPI_BUS    1
 #define SPI_CS	   0
 
-#define LED_TYPE    WS2801
-#define COLOR_ORDER GRB
-#define NUM_LEDS    64
+#define LED_TYPE    APA102
+#define COLOR_ORDER BGR
+#define NUM_LEDS    11
 CRGB leds[NUM_LEDS];
 
-#define BRIGHTNESS          96
-#define FRAMES_PER_SECOND  120
+#define BRIGHTNESS         255
+#define FRAMES_PER_SECOND  60
 
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
 

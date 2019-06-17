@@ -106,12 +106,12 @@ public:
   /// Increment every pixel value in this set
   inline CPixelView & operator++() { for(iterator pixel = begin(), _end = end(); pixel != _end; ++pixel) { (*pixel)++; } return *this; }
   /// Increment every pixel value in this set
-  inline CPixelView & operator++(int DUMMY_ARG) { for(iterator pixel = begin(), _end = end(); pixel != _end; ++pixel) { (*pixel)++; } return *this; }
+  inline CPixelView & operator++(int DUMMY_ARG) { (void)DUMMY_ARG; for(iterator pixel = begin(), _end = end(); pixel != _end; ++pixel) { (*pixel)++; } return *this; }
 
   /// Decrement every pixel value in this set
   inline CPixelView & operator--() { for(iterator pixel = begin(), _end = end(); pixel != _end; ++pixel) { (*pixel)--; } return *this; }
   /// Decrement every pixel value in this set
-  inline CPixelView & operator--(int DUMMY_ARG) { for(iterator pixel = begin(), _end = end(); pixel != _end; ++pixel) { (*pixel)--; } return *this; }
+  inline CPixelView & operator--(int DUMMY_ARG) { (void)DUMMY_ARG; for(iterator pixel = begin(), _end = end(); pixel != _end; ++pixel) { (*pixel)--; } return *this; }
 
   /// Divide every led by the given value
   inline CPixelView & operator/=(uint8_t d) { for(iterator pixel = begin(), _end = end(); pixel != _end; ++pixel) { (*pixel) /= d; } return *this; }
@@ -196,6 +196,7 @@ public:
   }
 
   inline CPixelView & fill_gradient_RGB(const PIXEL_TYPE & startcolor, const PIXEL_TYPE & endcolor, TGradientDirectionCode directionCode  = SHORTEST_HUES) {
+    (void)directionCode;
     if(dir >= 0) {
       ::fill_gradient_RGB(leds,len,startcolor, endcolor);
     } else {
